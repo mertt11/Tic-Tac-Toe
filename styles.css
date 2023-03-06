@@ -1,0 +1,105 @@
+*{
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box;
+}
+body{
+    width: 100%;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    background-color: antiquewhite;
+    min-height: 100vh;
+}
+.points{
+    display: flex;
+    justify-content: center;
+    gap:3rem;
+    border: 2px solid red;
+    padding: 3rem;
+    position: relative;
+}
+.points img {
+    display: none; 
+}
+.points img.active1 {
+    position: absolute;
+    display: block;
+    left: 18.8rem;
+    top: 3.05rem; 
+}
+.points img.active2 {
+    position: absolute;
+    display: block;
+    left: 28.8rem;
+    top: 3.05rem; 
+}
+.player-point,.bot-point{ 
+    background-color: rgb(248, 248, 248,0.9);
+    border-radius: 180px;
+    padding: 0.4rem;
+}
+.bot-point,.player-point,.round{
+    display: flex;
+    gap:2rem;
+    padding-right: 1rem;
+}
+.gameboard{
+    width: 18rem;
+    height: 18rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+.round{
+    margin: 1rem auto;
+    box-shadow: 0.2px 0.2px 0.2px black;
+    padding: 0.4rem;
+    padding-right: 1rem; 
+    border-radius: 180px;
+}
+.round.disable{
+    pointer-events: none;
+    border: none; 
+}
+/* .round::before{
+    margin: 1rem auto;
+    box-shadow: 0.2px 0.2px 0.2px black;
+    padding: 0.4rem;
+    padding-right: 1rem; 
+    border-radius: 180px;
+    pointer-events: none;
+    border: none; 
+    
+}
+.round::after{
+    border: 1px solid red;
+    pointer-events: auto;
+    content:'Play Again?';
+} */ 
+.rows{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex:1;
+}
+
+.cell{
+    background-color: rgb(241, 240, 240);
+    margin: 0 auto;
+    padding: 1rem;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.cell-styling{
+    font-size: 40px;
+    color:red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
