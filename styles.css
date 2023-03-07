@@ -11,31 +11,23 @@ body{
 .wrapper{
     display: flex;
     flex-direction: column;
-    background-color: antiquewhite;
     min-height: 100vh;
 }
 .points{
     display: flex;
     justify-content: center;
     gap:3rem;
-    border: 2px solid red;
     padding: 3rem;
-    position: relative;
 }
-.points img {
+.player-wrapper,.bot-wrapper{
+    display: flex;
+}
+.player-wrapper img,.bot-wrapper img{
     display: none; 
+    align-self: center;
 }
-.points img.active1 {
-    position: absolute;
+.points img.active1,.points img.active2 {
     display: block;
-    left: 18.8rem;
-    top: 3.05rem; 
-}
-.points img.active2 {
-    position: absolute;
-    display: block;
-    left: 28.8rem;
-    top: 3.05rem; 
 }
 .player-point,.bot-point{ 
     background-color: rgb(248, 248, 248,0.9);
@@ -60,26 +52,20 @@ body{
     padding: 0.4rem;
     padding-right: 1rem; 
     border-radius: 180px;
+    border: none;   
 }
-.round.disable{
-    pointer-events: none;
-    border: none; 
-}
-/* .round::before{
+.playAgain{
     margin: 1rem auto;
     box-shadow: 0.2px 0.2px 0.2px black;
     padding: 0.4rem;
     padding-right: 1rem; 
     border-radius: 180px;
-    pointer-events: none;
-    border: none; 
-    
+    display:none;   
+} 
+.playAgain.active{
+    display:block;   
 }
-.round::after{
-    border: 1px solid red;
-    pointer-events: auto;
-    content:'Play Again?';
-} */ 
+
 .rows{
     display: flex;
     justify-content: center; 
@@ -95,6 +81,10 @@ body{
     height: 5rem;
     border-radius: 10px;
     cursor: pointer;
+    
+}
+.cell.no-click{
+    pointer-events: none;
 }
 .cell-styling{
     font-size: 40px;
@@ -102,4 +92,15 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 0.5rem;
 }

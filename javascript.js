@@ -1,8 +1,4 @@
 
-const roundd=document.querySelector('.round');
-window.onload = () =>{
-  roundd.classList.add('disable');
-}
 function Gameboard(){
   const gameboard = document.querySelector('.gameboard');
   const rows=3;
@@ -24,13 +20,11 @@ function Gameboard(){
     cell.textContent=player.mark;
   }
   const resetBoard=()=>{
-    alert('girdiii');
     const cellElements=document.querySelectorAll('.cell');
     cellElements.forEach(cell=>cell.textContent='');
     
     return;
   }
-
   return {getGameboard,dropMark,resetBoard}
 }
 
@@ -38,7 +32,6 @@ function GameController(
   playerOneName='PlayerOne',
   playerTwoName='PlayerTwo'
   ){  
-    
     let playerWinCount=0;
     let botWinCount=0;
     let round=1;
@@ -53,28 +46,44 @@ function GameController(
         mark: 'O'
       }
     ];
-    
-    const checkWinner = (round) =>{
-      const img=document.querySelector('.points img');
-      const playerPoint= document.querySelector('.player-point p');
+
+    const resetGame = () => {
+      playerWinCount = 0;
+      botWinCount = 0;
+      round = 1;
+      const playerPoint = document.querySelector('.player-point p');
       const botPoint = document.querySelector('.bot-point p');
       const roundPoint = document.querySelector('.round p');
-      /* const round=document.querySelector('.round'); */
-      if(round>3 && Math.abs(playerWinCount-botWinCount)>1){
-        (playerWinCount>botWinCount) 
-        ? (alert('wiiner player win'),img.classList.add('active1'))
-        : (alert('winner bot win'),img.classList.add('active2'));
-
-        /* playerWinCount=0;
-        botWinCount=0; 
-        round=1; */
-        roundd.classList.remove('disable');
-        playerPoint.textContent=playerWinCount;
-        botPoint.textContent=botWinCount;
-        roundPoint.textContent=round;
-      }
+      playerPoint.textContent = playerWinCount;
+      botPoint.textContent = botWinCount;
+      roundPoint.textContent = round;
     }
     
+    const checkWinner = (round) =>{
+      const img1=document.querySelector('.player-wrapper img');
+      const img2=document.querySelector('.bot-wrapper img');
+      const cells = document.querySelectorAll('.cell');
+      const playAgain = document.querySelector('.playAgain');   
+      if(round>3 && Math.abs(playerWinCount-botWinCount)>1){
+        (playerWinCount>botWinCount) 
+        ? (img1.classList.add('active1'))
+        : (img2.classList.add('active2'));
+
+        cells.forEach(cell => cell.classList.add('no-click'));
+        playAgain.classList.add('active');
+
+        playAgain.onclick=()=>{
+          resetGame();
+          playAgain.classList.remove('active');
+          img1.classList.remove('active1');
+          img2.classList.remove('active2');
+          cells.forEach(cell => cell.classList.remove('no-click'));
+          gameboard.resetBoard();
+        };
+        return true;  
+      }
+      return false;
+    }
 
     let activePlayer=players[0];
     const switchPlayerTurn = () =>{
@@ -82,7 +91,7 @@ function GameController(
     }
     
     const roundWinner = () => {
-      const cells = document.querySelectorAll('.cell');
+      const cells = document.querySelectorAll('.cell'); 
       const playerPoint= document.querySelector('.player-point p');
       const botPoint = document.querySelector('.bot-point p');
       const roundPoint = document.querySelector('.round p');
@@ -98,40 +107,44 @@ function GameController(
         [2, 4, 6]
       ]
 
-
        for (let i = 0; i < WinningCombinations.length; i++) {   
         const combo=WinningCombinations[i];
         const values=combo.map(index=>cells[index].textContent);
         console.log(values);
-        if(values.every(element=>element==='X')){ 
-          round++;      
+        if(values.every(element=>element==='X')){
+          round++; 
           playerWinCount++; 
-          playerPoint.textContent=playerWinCount;
+          playerPoint.textContent=playerWinCount;   
           hasWinner=true;
-          alert('win X');
           activePlayer=players[0];
           gameboard.resetBoard();
+          if(checkWinner(round)){
+            round--;
+          } 
           roundPoint.textContent=round;
-          checkWinner(round);
           break;
         }else if(values.every(element=>element==='O')){
           round++;
           botWinCount++; 
           botPoint.textContent=botWinCount;
           hasWinner=true;
-          alert('win O'); 
           activePlayer=players[0];
           gameboard.resetBoard();
+          if(checkWinner(round)){
+            round--;
+          } 
           roundPoint.textContent=round;
-          checkWinner(round);
           break;
-        }  
+        }
       }  
       if (!hasWinner && Array.from(cells).every(cell => cell.textContent !== '')) {               
-        alert('tie');
         activePlayer=players[0];
         gameboard.resetBoard();
         round++;
+        botWinCount++; 
+        playerWinCount++; 
+        playerPoint.textContent=playerWinCount;   
+        botPoint.textContent=botWinCount;
         roundPoint.textContent=round;
       }
     }  
@@ -143,14 +156,14 @@ function GameController(
       roundWinner();
     };
     return {getActivePlayer,
-            playround
+            playround,
+            resetGame
     }
 }
 
-function ScreenController(){
+function ScreenController(){ 
   const game=GameController();
   const cellElements=document.querySelectorAll('.cell');
-  
 
   cellElements.forEach(cell=>{
     cell.addEventListener('click',handleClick)
@@ -161,6 +174,5 @@ function ScreenController(){
     game.playround(cell);
   }
 }
-
 
 ScreenController();
